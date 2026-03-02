@@ -1,40 +1,44 @@
 <template>
-  <div class="contact-container">
-    <h1>CONTACTO</h1>
+  <v-container class="py-10">
+    <div class="text-center mb-10">
+      <h1 class="text-h3 font-weight-bold mb-4">Contacta al equipo</h1>
+      
+      <v-responsive max-width="600" class="mx-auto">
+        <v-combobox 
+            v-model:search="contactStore.searchQuery"
+            placeholder="Busca un miembro del equipo..." 
+            variant="solo-filled" 
+            rounded="pill" 
+            flat 
+            bg-color="grey-lighten-3" 
+            :items="contactStore.contacts" 
+            item-title="name"
+            persistent-search
+            clearable
+            hide-no-data
+            :return-object="false"
+          />
 
-    <table v-if="usersStore.catalogs.length > 0" class="catalog-table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nombre</th> <th>Descripción</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="item in usersStore.catalogs" :key="item.id">
-          <td>{{ item.id }}</td>
-          <td>{{ item.name }}</td>
-          <td>{{ item.description }}</td>
-        </tr>
-      </tbody>
-    </table>
+        <p class="text-caption text-grey mt-2">
+          Si no encuentras con quién comunicarte, escríbenos a 
+          <a href="mailto:jub@cinvestav.mx" class="text-grey font-weight-bold text-decoration-none">jub@cinvestav.mx</a>
+        </p>
+      </v-responsive>
+    </div>
 
-    <p v-else>Cargando datos...</p>
-    
-    <button @click="usersStore.fetchUsers">Refrescar Datos</button>
-  </div>
+    <v-row>
+      <v-col v-for="member in contactStore.filteredContacts" :key="member.id" cols="12" sm="6" md="4">
+        <ContactCard :member="member" @show-details="openDialog" />
+      </v-col>
+    </v-row>
+
+    <ContactDialog v-model="showDialog" :member="selectedMember" />
+  </v-container>
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue';
-import { useUsersStore } from '@/stores/users'; // Ajusta la ruta a tu archivo de store
-
-// 1. Instanciamos el store
-const usersStore = useUsersStore();
-
-// 2. Ejecutamos la función de carga cuando el componente se monta
-onMounted(() => {
-  usersStore.fetchUsers();
-});
+import { ref} from 'vue';
+import { useContactStore, type Contact } from '@/stores/contacts';
 
 definePage({
     name: 'Contact',
@@ -43,19 +47,26 @@ definePage({
         layout: 'default',
     },
 });
+
+
+
+
+
+const contactStore      = useContactStore();
+contactStore.initContacts();
+
+
+// teamStore.members =
+const showDialog     = ref(false);
+const selectedMember = ref<Contact | null>(null);
+
+const openDialog = (member: Contact) => {
+  selectedMember.value = member;
+  showDialog.value = true;
+};
+
+
 </script>
 
 <style scoped lang="sass">
-.catalog-table
-  width: 100%
-  border-collapse: collapse
-  margin-top: 20px
-
-  th, td
-    border: 1px solid #ddd
-    padding: 8px
-    text-align: left
-
-  th
-    background-color: #f4f4f4
 </style>

@@ -92,7 +92,16 @@ const menuItems: MenuItem[] = [
       { title: 'MictlanX', hasDropdown: false, route: '/services/mictlanx' },
     ],
   },
-  {title: "Observatorios", hasDropdown: true, route: '/observatory'},
+  {
+    title: "Observatorios",
+    hasDropdown: true,
+    route: '/observatory',
+    items: [
+      { title: 'Azomalli', hasDropdown: false, route: '/observatories/azomalli' },
+      { title: 'IMA', hasDropdown: false, route: '/observatories/ima' },
+    ],
+
+  },
   { title: 'Contacto', hasDropdown: false, route: '/contact' },
 ];
 

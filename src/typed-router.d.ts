@@ -21,6 +21,9 @@ declare module 'vue-router/auto-routes' {
     'Home': RouteRecordInfo<'Home', '/', Record<never, never>, Record<never, never>>,
     'Contact': RouteRecordInfo<'Contact', '/contact', Record<never, never>, Record<never, never>>,
     'Dashboard': RouteRecordInfo<'Dashboard', '/dashboard', Record<never, never>, Record<never, never>>,
+    'Observatories': RouteRecordInfo<'Observatories', '/observatories', Record<never, never>, Record<never, never>>,
+    'Azomalli': RouteRecordInfo<'Azomalli', '/observatories/azomalli', Record<never, never>, Record<never, never>>,
+    'IMA': RouteRecordInfo<'IMA', '/observatories/ima', Record<never, never>, Record<never, never>>,
     'Services': RouteRecordInfo<'Services', '/services', Record<never, never>, Record<never, never>>,
     'MictlanX': RouteRecordInfo<'MictlanX', '/services/mictlanx', Record<never, never>, Record<never, never>>,
     'Nez': RouteRecordInfo<'Nez', '/services/nez', Record<never, never>, Record<never, never>>,
@@ -48,6 +51,18 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/dashboard.vue': {
       routes: 'Dashboard'
+      views: never
+    }
+    'src/pages/observatories/index.vue': {
+      routes: 'Observatories'
+      views: never
+    }
+    'src/pages/observatories/azomalli.vue': {
+      routes: 'Azomalli'
+      views: never
+    }
+    'src/pages/observatories/ima.vue': {
+      routes: 'IMA'
       views: never
     }
     'src/pages/services/index.vue': {

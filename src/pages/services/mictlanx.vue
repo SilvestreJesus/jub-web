@@ -26,7 +26,7 @@
 
         <div class="d-flex justify-center flex-wrap gap-4 mb-8">
           <v-btn
-            color="primary"
+            color="grey-darken-2"
             rounded="pill"
             size="large"
             elevation="0"
@@ -41,6 +41,7 @@
             size="large"
             elevation="0"
             class="text-none font-weight-bold px-8"
+            @click="onClickDocs"
           >
             Docs
           </v-btn>
@@ -117,6 +118,12 @@ function onClickDemo() {
     authStore.showAuthDialog = true; 
   }
 }
+
+function onClickDocs() {
+  window.open('https://jub-ecosystem.github.io/mictlanx-client/#/', '_blank');
+}
+
+
 </script>
 
 <style scoped>
@@ -124,7 +131,7 @@ function onClickDemo() {
   The linear-gradient helps darken the image so the white text stays readable!
 */
 .hero-section {
-  background-image: linear-gradient(to bottom, rgba(15, 15, 15, 0.8), rgba(20, 20, 20, 0.95)), url('@/assets/mictlanx_hero_section.svg');
+  background-image: linear-gradient(to bottom, rgba(15, 15, 15, 0.8), rgba(20, 20, 20, 0.95)), url('@/assets/mictlanx_hs_25s.svg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

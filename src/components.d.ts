@@ -12,6 +12,8 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AuthDialog: typeof import('./components/AuthDialog.vue')['default']
+    ContactCard: typeof import('./components/contact/ContactCard.vue')['default']
+    ContactDialog: typeof import('./components/contact/ContactDialog.vue')['default']
     HeroSection: typeof import('./components/landing/sections/HeroSection.vue')['default']
     HowItWorksSection: typeof import('./components/landing/sections/HowItWorksSection.vue')['default']
     LandingFooter: typeof import('./components/landing/sections/LandingFooter.vue')['default']
