@@ -4,10 +4,19 @@
     class="d-flex align-center justify-center text-center px-4"
     min-height="850"
   >
+  <video-background 
+    :src="heroVideo"
+    overlay="rgba(0, 0, 0, 0.6)" 
+    class="d-flex align-center justify-center text-center px-4"
+    style="min-height: 850px; width: 100%;"
+    muted
+  >
     <v-container>
-      <v-avatar color="grey-lighten-2" :size="name === 'xs' ? 160 : 320"  class="mb-10 border-lg">
-        <v-img src="@/assets/logo.svg" contain></v-img>
-      </v-avatar>
+      <!-- <v-avatar :size="name === 'xs' ? 160 : 320"  class="mb-10"> -->
+        <v-col justify="center" align="center" class="mb-10">
+          <v-img :width="name === 'xs' ? 240 : 320" src="@/assets/logo.svg" contain/>
+        </v-col>
+      <!-- </v-avatar> -->
 
       <h1 :class="[responsiveBannerTitle, 'font-weight-bold', 'text-white','mb-8', 'text-uppercase']"
         style="max-width: 900px; margin: 0 auto; line-height: 1.4; letter-spacing: 1px;">
@@ -34,11 +43,15 @@
         </v-btn>
 
       </div>
+
     </v-container>
+    </video-background> 
   </v-sheet>
 </template>
 
 <script setup lang="ts">
+import VideoBackground from '@hintay/vue-video-background';
+import heroVideo from '@/assets/hero-background.mp4';
 import { computed } from 'vue';
 import { useDisplay } from 'vuetify';
 import { useAuthStore } from '@/stores/auth';
