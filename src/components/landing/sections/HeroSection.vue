@@ -1,13 +1,13 @@
 <template>
-  <v-sheet 
+  <!-- <v-sheet 
     color="primary-blue"
     class="d-flex align-center justify-center text-center px-4"
     min-height="850"
-  >
+  > -->
   <video-background 
     :src="heroVideo"
     overlay="rgba(0, 0, 0, 0.6)" 
-    class="d-flex align-center justify-center text-center px-4"
+    class="d-flex align-center justify-center text-center"
     style="min-height: 850px; width: 100%;"
     muted
   >
@@ -46,7 +46,7 @@
 
     </v-container>
     </video-background> 
-  </v-sheet>
+  <!-- </v-sheet> -->
 </template>
 
 <script setup lang="ts">
