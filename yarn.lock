@@ -317,6 +317,11 @@
   resolved "https://registry.yarnpkg.com/@fontsource/roboto/-/roboto-5.2.7.tgz#4c8e06c6abf17bc6c18cd8b1ce26112803346c9c"
   integrity sha512-fca6Jtyxn6kPR51+TTTMCFm0FOhnKaLEYYiAQc8P/4iFCKoKGR0aX89QR4CfP+N64RPXJus64UxhJaVENnSM6Q==
 
+"@hintay/vue-video-background@^3.0.7":
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/@hintay/vue-video-background/-/vue-video-background-3.0.7.tgz#d74c5e929495de48b6030c585c4d7a613b11d8ab"
+  integrity sha512-gBHcXrtMF5077CKq1g5/qaD0pNF3Hb+1ptNk2MpLwsOqR90+x7cI+UcdSX+6E/WpxdWQc4lnSRMVunK0Vpdctw==
+
 "@humanfs/core@^0.19.1":
   version "0.19.1"
   resolved "https://registry.yarnpkg.com/@humanfs/core/-/core-0.19.1.tgz#17c55ca7d426733fe3c561906b8173c336b40a77"
