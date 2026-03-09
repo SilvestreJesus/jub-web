@@ -21,6 +21,7 @@ declare module 'vue-router/auto-routes' {
     'Home': RouteRecordInfo<'Home', '/', Record<never, never>, Record<never, never>>,
     'Contact': RouteRecordInfo<'Contact', '/contact', Record<never, never>, Record<never, never>>,
     'Dashboard': RouteRecordInfo<'Dashboard', '/dashboard', Record<never, never>, Record<never, never>>,
+    'Jub': RouteRecordInfo<'Jub', '/jub', Record<never, never>, Record<never, never>>,
     'Observatories': RouteRecordInfo<'Observatories', '/observatories', Record<never, never>, Record<never, never>>,
     'Azomalli': RouteRecordInfo<'Azomalli', '/observatories/azomalli', Record<never, never>, Record<never, never>>,
     'IMA': RouteRecordInfo<'IMA', '/observatories/ima', Record<never, never>, Record<never, never>>,
@@ -51,6 +52,10 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/dashboard.vue': {
       routes: 'Dashboard'
+      views: never
+    }
+    'src/pages/jub.vue': {
+      routes: 'Jub'
       views: never
     }
     'src/pages/observatories/index.vue': {
