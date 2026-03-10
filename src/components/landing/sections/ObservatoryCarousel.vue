@@ -21,7 +21,7 @@
 
 
 <script setup lang="ts">
-import ObservatoryCard from './ObservatoryCard.vue';
+import ObservatoryCard from './ObservatoryCarouselCard.vue';
 
 //datos de ejemplo, para mostrar el funcionamiento del carrusel.
 const observatories = [
