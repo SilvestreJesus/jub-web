@@ -20,6 +20,7 @@ declare module 'vue-router/auto-routes' {
   export interface RouteNamedMap {
     'Home': RouteRecordInfo<'Home', '/', Record<never, never>, Record<never, never>>,
     'Catalogs': RouteRecordInfo<'Catalogs', '/catalogs', Record<never, never>, Record<never, never>>,
+    'CatalogDetails': RouteRecordInfo<'CatalogDetails', '/catalogs/:catalogId', { catalogId: ParamValue<true> }, { catalogId: ParamValue<false> }>,
     'Contact': RouteRecordInfo<'Contact', '/contact', Record<never, never>, Record<never, never>>,
     'Dashboard': RouteRecordInfo<'Dashboard', '/dashboard', Record<never, never>, Record<never, never>>,
     'Observatories': RouteRecordInfo<'Observatories', '/observatories', Record<never, never>, Record<never, never>>,
@@ -58,6 +59,10 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/catalogs/index.vue': {
       routes: 'Catalogs'
+      views: never
+    }
+    'src/pages/catalogs/[catalogId].vue': {
+      routes: 'CatalogDetails'
       views: never
     }
     'src/pages/contact.vue': {
