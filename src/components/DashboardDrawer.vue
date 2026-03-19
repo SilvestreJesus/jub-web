@@ -18,8 +18,8 @@
         :to="{ 'name': 'Dashboard' }"></v-list-item>
       <v-list-item prepend-icon="mdi-book-open" title="Catalogs" value="catalogs"
         :to="{ 'name': 'Catalogs' }"></v-list-item>
-      <v-list-item prepend-icon="mdi-graph" title="Products" value="products"
-        :to="{ 'name': 'Products' }"></v-list-item>
+      <!-- <v-list-item prepend-icon="mdi-graph" title="Products" value="products" -->
+        <!-- :to="{ 'name': 'Products' }"></v-list-item> -->
       <v-list-item prepend-icon="mdi-clipboard-text" title="Tasks" value="tasks"
         :to="{ 'name': 'TasksIndex' }"></v-list-item>
       <v-list-item prepend-icon="mdi-cog" title="Settings" value="settings" :to="{ 'name': 'Settings' }"></v-list-item>
