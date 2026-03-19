@@ -93,24 +93,21 @@ const yamlFile = ref<File[]>([]);
 
 const props = defineProps<{
   modelValue: boolean;
-  // Puedes definir props aquí si es necesario
 }>();
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: boolean): void; // Para cerrar el diálogo
-  (e: 'success'): void; // Para avisar que la ingesta terminó bien
+  (e: 'update:modelValue', value: boolean): void;
+  (e: 'success'): void; 
 }>();
 
 const handleCreateTask = async () => {
   let payloadBlob: Blob | File;
 
-  // 1. Preparar el Payload dependiendo del modo
   if (yamlMode.value === 'editor') {
     if (!yamlText.value.trim()) {
       appStore.showSnackbar("El editor YAML está vacío", 3000, SnackbarColor.ERROR);
       return;
     }
-    // Convertimos el texto del textarea en un archivo Blob simulado
     payloadBlob = new Blob([yamlText.value], { type: 'application/x-yaml' });
   } else {
     const selectedFile = Array.isArray(yamlFile.value) ? yamlFile.value[0] : yamlFile.value;
@@ -118,11 +115,9 @@ const handleCreateTask = async () => {
       appStore.showSnackbar("Selecciona un archivo primero", 3000, SnackbarColor.ERROR);
       return;
     }
-    // Tomamos el archivo físico seleccionado
     payloadBlob = selectedFile as File;
   }
 
-  // 2. Enviar al backend usando el Store
   const success = await jubStore.upload_yaml(payloadBlob);
   console.log("Resultado de la ingesta YAML:", success, "Error:", jubStore.error);
   if (success) {
@@ -130,14 +125,10 @@ const handleCreateTask = async () => {
     emit('update:modelValue', false);
     emit('success');
     
-    // Limpiar campos
     yamlText.value = '';
     yamlFile.value = [];
     
-    // Recargar los datos ejecutando la búsqueda actual nuevamente
-    // await executeSearch();
   } else {
-    // El error detallado ya lo puedes sacar de jubStore.error
     appStore.showSnackbar(jubStore.error || "Error al procesar el YAML", 5000, SnackbarColor.ERROR);
   }
 };

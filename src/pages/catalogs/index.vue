@@ -111,7 +111,6 @@ definePage({
 const router = useRouter();
 const searchQuery = ref('');
 
-// 1. Interfaces basadas en tus modelos de Python
 interface CatalogDTO {
   catalog_id: string;
   root_group_id?: string | null;
@@ -122,7 +121,6 @@ interface CatalogDTO {
   level: number;
 }
 
-// 2. Mock Data simulando la respuesta de tu backend
 const catalogs = ref<CatalogDTO[]>([
   {
     catalog_id: 'cat_001',
@@ -143,7 +141,7 @@ const catalogs = ref<CatalogDTO[]>([
     name: 'Subclasificación CIE-10',
     value: 'CIE_10_SUB',
     catalog_type: 'MEDICAL',
-    parent_catalog_id: 'cat_010', // Indica que es hijo de otro
+    parent_catalog_id: 'cat_010',
     level: 1
   },
   {
@@ -162,7 +160,6 @@ const catalogs = ref<CatalogDTO[]>([
   }
 ]);
 
-// 3. Lógica de Búsqueda
 const filteredCatalogs = computed(() => {
   if (!searchQuery.value) return catalogs.value;
   
@@ -174,12 +171,8 @@ const filteredCatalogs = computed(() => {
   );
 });
 
-// 4. Navegación al Detalle
 const goToCatalog = (catalog: CatalogDTO) => {
-  // Redirige a la página de detalles del catálogo (la construiremos después)
   console.log('Navegando al catálogo:', catalog.catalog_id);
-  
-  // Descomenta esto cuando la página exista:
-  // router.push({ name: 'CatalogDetails', params: { id: catalog.catalog_id } });
+  router.push({ name: 'CatalogDetails', params: { catalogId: catalog.catalog_id } });
 };
 </script>

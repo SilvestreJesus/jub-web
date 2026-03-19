@@ -142,7 +142,6 @@ definePage({
   },
 });
 
-// Tipado de la tarea
 interface Task {
   id: string;
   title: string;
@@ -154,7 +153,6 @@ interface Task {
   errorDetail?: string;
 }
 
-// Datos simulados (Mock Data)
 const tasks = ref<Task[]>([
   {
     id: 'tsk-001',
@@ -193,12 +191,10 @@ const tasks = ref<Task[]>([
   }
 ]);
 
-// Métricas Computadas
 const pendingCount = computed(() => tasks.value.filter(t => t.status === 'pending' || t.status === 'running').length);
 const successCount = computed(() => tasks.value.filter(t => t.status === 'success').length);
 const failedCount = computed(() => tasks.value.filter(t => t.status === 'failed').length);
 
-// Funciones Auxiliares de UI
 const getStatusColor = (status: Task['status']) => {
   const colors = {
     pending: 'warning',
@@ -228,6 +224,6 @@ const formatDate = (dateString: string) => {
 
 const refreshTasks = () => {
   console.log("Actualizando lista de tareas...");
-  // Aquí llamarías a tu servicio: tasks.value = await jubStore.getTasks()
+  
 };
 </script>

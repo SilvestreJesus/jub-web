@@ -45,7 +45,6 @@
     <div class="d-flex align-center">
       <v-avatar color="grey-lighten-3" size="50" class="mr-4">
         <v-img src="@/assets/cinvestav.svg" contain></v-img>
-        <!-- <span class="text-caption">Logo 1</span> -->
       </v-avatar>
       <v-img width="200" src="@/assets/secihti.svg" contain></v-img>
     </div>
@@ -113,7 +112,6 @@ const menuItems: MenuItem[] = [
       { title: 'Kawak', hasDropdown: false, route: '/observatories/kawak' },
       { title: 'Kaexla', hasDropdown: false, route: '/observatories/kaexla' },
       { title: 'Alerta', hasDropdown: false, route: '/observatories/alerta' },
-      // { title: 'Tlalocan', hasDropdown: false, route: '/observatories/tlalocan' },
     ]
   },
   { title: 'Contacto', hasDropdown: false, route: '/contact' },
@@ -123,7 +121,6 @@ const drawer = ref(false);
 
 function onMenuClick(item: MenuItem) {
   if (item.hasDropdown) {
-    // Handle dropdown logic here (e.g., toggle submenu)
     return;
   }
   router.push(item.route);

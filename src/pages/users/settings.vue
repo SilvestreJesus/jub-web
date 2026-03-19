@@ -185,11 +185,9 @@ definePage({
 
 const vuetifyTheme = useTheme()
 
-// Variables de estado
 const isSaving = ref(false)
 const showSnackbar = ref(false)
 
-// Objeto de configuración (Idealmente esto viene de un store de Pinia persistido)
 const settings = ref({
   theme: 'jubThemeLight', // o 'jubThemeDark'
   itemsPerPage: 24,
@@ -198,19 +196,15 @@ const settings = ref({
   exportFormat: 'json'
 })
 
-// Función para cambiar el tema en tiempo real en Vuetify
 const toggleTheme = (newTheme: string) => {
   if (newTheme) {
     vuetifyTheme.global.name.value = newTheme
   }
 }
 
-// Simular guardado
 const saveSettings = () => {
   isSaving.value = true
   
-  // Aquí despacharías la acción a tu store o backend
-  // ej: settingsStore.savePreferences(settings.value)
   
   setTimeout(() => {
     isSaving.value = false
@@ -218,7 +212,6 @@ const saveSettings = () => {
   }, 800)
 }
 
-// Al montar, nos aseguramos de que el toggle refleje el tema actual de Vuetify
 onMounted(() => {
   settings.value.theme = vuetifyTheme.global.name.value
 })

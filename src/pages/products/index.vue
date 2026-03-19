@@ -221,9 +221,6 @@ const isModalOpen = ref(false);
 const activeTab = ref('visual');
 const selectedProduct = ref<ProductDetailDTO | null>(null);
 
-// ==========================================
-// INTERFACES (Simulando tu backend)
-// ==========================================
 interface ProductDetailDTO {
   id: string;
   product_id: string;
@@ -237,16 +234,12 @@ interface ProductDetailDTO {
   image_url: string;
   created_at: string;
   query_dsl: string;
-  // Simulación de los datos del CSV parseados para la tabla
   csv_data: {
     headers: string[];
     rows: (string | number)[][];
   };
 }
 
-// ==========================================
-// MOCK DATA
-// ==========================================
 const products = ref<ProductDetailDTO[]>([
   {
     id: 'prod_1',
@@ -294,9 +287,6 @@ const products = ref<ProductDetailDTO[]>([
   }
 ]);
 
-// ==========================================
-// LÓGICA
-// ==========================================
 const filteredProducts = computed(() => {
   if (!searchQuery.value) return products.value;
   const query = searchQuery.value.toLowerCase();
@@ -310,7 +300,7 @@ const filteredProducts = computed(() => {
 
 const openProductModal = (product: ProductDetailDTO) => {
   selectedProduct.value = product;
-  activeTab.value = 'visual'; // Siempre abre en la gráfica primero
+  activeTab.value = 'visual'; 
   isModalOpen.value = true;
 };
 
@@ -322,7 +312,6 @@ const formatDate = (dateString: string) => {
 </script>
 
 <style scoped>
-/* Altura fija para el contenido de las pestañas para que el modal no brinque al cambiar */
 .v-window__container {
   height: 100%;
 }

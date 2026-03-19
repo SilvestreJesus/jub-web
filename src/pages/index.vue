@@ -17,12 +17,7 @@
   <HeroSection />
 
    <Separator :size="20"/>
-   <!-- <div class="d-flex" style="height: 20px; width: 100%;">
-    <div class="flex-grow-1 bg-blue-darken-1"></div>
-    <div class="flex-grow-1 bg-blue-accent-4"></div>
-    <div class="flex-grow-1 bg-blue-darken-4"></div>
-    <div class="flex-grow-1 bg-blue-accent-3"></div>
-  </div> -->
+
   <ObservatoryCarousel/>
 
   <ValueProposition/>
@@ -36,18 +31,7 @@
 </template>
 
 <style>
-  /*<v-container class="py-16" >
-    <h2 class="text-center text-h4 font-weight-bold text-grey-darken-4 mb-10">
-      Componentes principales: Servicios
-    </h2>
-    <v-row>
-      <v-col v-for="n in 3" :key="n" cols="12" md="4">
-        <v-sheet color="grey-lighten-4" height="200" rounded="lg" class="d-flex align-center justify-center">
-          <span class="text-grey">Service Card Placeholder</span>
-        </v-sheet>
-      </v-col>
-    </v-row>
-  </v-container>*/
+
 </style>
 
   

@@ -140,16 +140,14 @@ definePage({
 const router = useRouter();
 const searchItem = ref('');
 
-// 1. Información del Catálogo Padre (Simulado)
 const currentCatalog = ref({
   catalog_id: 'cat_004',
   name: 'Entidades Federativas (México)',
   value: 'ESTADOS_MX',
-  catalog_type: 'SPATIAL', // Tipo Espacial
+  catalog_type: 'SPATIAL', 
   level: 1
 });
 
-// 2. Interfaces basadas en tus clases de Python
 interface CatalogItemAliasDTO {
   catalog_item_alias_id: string;
   value: string;
@@ -165,7 +163,6 @@ interface CatalogItemDTO {
   aliases: CatalogItemAliasDTO[];
 }
 
-// 3. Mock Data de los Ítems (CatalogItemX) y sus Alias
 const items = ref<CatalogItemDTO[]>([
   {
     catalog_item_id: 'item_001',
@@ -203,7 +200,6 @@ const items = ref<CatalogItemDTO[]>([
   }
 ]);
 
-// 4. Lógica de Búsqueda reactiva
 const filteredItems = computed(() => {
   if (!searchItem.value) return items.value;
   
@@ -212,12 +208,12 @@ const filteredItems = computed(() => {
     item.name.toLowerCase().includes(query) || 
     item.value.toLowerCase().includes(query) ||
     item.code.toString().includes(query) ||
-    // Buscar también dentro de los alias
     item.aliases.some(alias => alias.value.toLowerCase().includes(query))
   );
 });
 
 const goBack = () => {
   router.push({ name: 'Catalogs' });
+  
 };
 </script>

@@ -42,9 +42,6 @@
     <v-btn color="white" variant="outlined" rounded class="text-none font-weight-bold" @click="router.push('/')">
       Prueba
     </v-btn>
-    <!-- <v-avatar size="60"> -->
-      <!-- <v-img src="@/assets/logo.svg" alt="JUB Logo"></v-img> -->
-    <!-- </v-avatar> -->
       <v-spacer></v-spacer>
       <div class="d-none d-md-flex align-center">
           <v-btn 
@@ -75,8 +72,8 @@
 interface MenuItem {
   title: string;
   hasDropdown: boolean;
-  items?: MenuItem[]; // For dropdown items
-  route: string; // Added route for navigation
+  items?: MenuItem[];
+  route: string; 
 }
 const router = useRouter();
 
@@ -101,7 +98,6 @@ const menuItems: MenuItem[] = [
       { title: 'IMA', hasDropdown: false, route: '/observatories/ima' },
       { title: 'Kaexla', hasDropdown: false, route: '/observatories/kaexla' },
       { title: 'Alerta', hasDropdown: false, route: '/observatories/alerta' },
-      // { title: 'Tlalocan', hasDropdown: false, route: '/observatories/tlalocan' },
     ]
   },
   { title: 'Contacto', hasDropdown: false, route: '/contact' },
@@ -121,7 +117,6 @@ const drawer = ref(false);
 
 function onMenuClick(item: MenuItem) {
   if (item.hasDropdown) {
-    // If it's a dropdown, we don't navigate, just toggle the menu
     return;
   }
   router.push(item.route);  

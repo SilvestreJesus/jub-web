@@ -131,100 +131,12 @@
     <CreateObservatoryDialog :model-value="showCreateDialog" @update:model-value="showCreateDialog = $event" />
   
   </v-container>
-  <!-- <v-container class="py-10"> -->
-    <!-- <div class="text-center mb-10">
-
-      <v-responsive max-width="700" class="justify-content-center mx-auto">
-        <v-row no-gutters align="center" justify="center">
-          <v-col class="align-center">
-            <v-text-field @keyup.enter="executeSearch" id="search-input" v-model="searchQuery" :rules="dslRules"
-              validate-on="input" placeholder="Ej: jub.v1.VS(TAMPS).VT(2025)" variant="solo-filled" rounded="pill" flat
-              bg-color="grey-lighten-3" clearable @update:model-value="handleTyping">
-              <template v-slot:append-inner>
-                <v-icon color="grey-darken-1">mdi-tune</v-icon>
-              </template>
-            </v-text-field>
-
-            <v-menu v-model="showAutocomplete" activator="#search-input" :close-on-content-click="true"
-              :open-on-click="false" :open-on-focus="false" offset-y>
-              <v-list v-if="dynamicSuggestions.length > 0" max-height="300">
-                <v-list-item v-for="item in dynamicSuggestions" :key="item" @click="insertSuggestion(item)">
-                  <v-list-item-title class="font-weight-bold text-primary">
-                    {{ item }}
-                  </v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
-
-          </v-col>
-
-          <v-col cols="auto" class="d-flex ml-4">
-
-            <v-btn icon="mdi-view-grid" variant="text" :color="viewMode === 'grid' ? 'primary' : 'grey-darken-3'"
-              @click="viewMode = 'grid'" class="mr-1"></v-btn>
-
-            <v-btn icon="mdi-view-list" variant="text" :color="viewMode === 'table' ? 'primary' : 'grey-darken-3'"
-              @click="viewMode = 'table'"></v-btn>
-
-          </v-col>
-
-        </v-row>
-
-        <v-row class="d-flex align-center justify-center">
-          <v-col no-gutters>
-            <p class="cursor-pointer text-subtitle-2 text-grey-darken-1 mt-3">
-              ¿Como realizar busquedas usando identificadores?
-            </p>
-          </v-col>
-        </v-row>
-
-      </v-responsive>
-    </div> -->
-
-    <!-- Observatories Grid View -->
-    <!-- <v-row v-if="viewMode === 'grid' && filteredObservatories.length > 0" class="d-flex align-stretch">
-      <v-col v-for="observatory in filteredObservatories" :key="observatory.observatory_id" cols="12" sm="6" md="6">
-        <ObservatoryCard :observatory="observatory" @show-details="goToDetails" />
-      </v-col>
-    </v-row> -->
-    <!-- Observatories Table View -->
-    <!-- <v-row v-else-if="viewMode === 'table' && filteredObservatories.length > 0">
-      <v-col cols="12">
-        <ObservatoryTables :items="filteredObservatories" @show-details="goToDetails" />
-      </v-col>
-    </v-row> -->
-
-
-     <!-- No Observatories Found -->
-    <!-- <v-row class="d-flex justify-center" v-else-if="searchCounter>0 && filteredObservatories.length == 0">
-        <v-empty-state
-          icon="mdi-package-variant-remove"
-          image="https://vuetifyjs.b-cdn.net/docs/images/components/v-empty-state/astro-cat.svg"
-          headline="Sin observatorios asociados"
-          title="No hay observatorios asociados a esta consulta."
-          text="Pero puedes programar una nueva tarea para crear un observatorio privado que podrás publicar después."
-          action-text="Personalizar Tarea de Observatorio"
-          @click:action="showCreateDialog = true"
-          color="primary"
-          action-color="primary"
-        >
-        </v-empty-state>
-    </v-row> -->
-
-    <!-- Create observatory dialog -->
-    <!-- <CreateObservatoryDialog :model-value="showCreateDialog" @update:model-value="showCreateDialog = $event" /> -->
-  
-  <!-- </v-container> -->
-
-
-
 
   
 </template>
 
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
-// import { useDashboardStore, type Dashboard } from '@/stores/dashboard';
 import { type ObservatoryDTO } from '@/types/index.types';
 import { useJubStore } from '@/stores/jub';
 import { useRouter } from 'vue-router'
@@ -238,9 +150,6 @@ definePage({
     layout: 'dashboard',
   },
 });
-
-// const dashboardStore = useDashboardStore();
-// dashboardStore.initObservatory();
 
 const showCreateDialog      = ref(false);
 const appStore              = useAppStore();
@@ -271,8 +180,6 @@ const newTask = ref({
   catalogs: [] as string[],
 });
 const handleCreateTask = () => {
-  // Aquí puedes implementar la lógica para crear y programar la tarea de observatorio
-  // utilizando los datos de newTask.
   console.log("Nueva tarea configurada:", newTask.value);
   appStore.showSnackbar("Tarea creada exitosamente", 3000, SnackbarColor.SUCCESS);
   showCreateDialog.value = false; // Cierra el diálogo después de manejar la creación

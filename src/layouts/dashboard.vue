@@ -108,20 +108,17 @@
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
 
-// Variables originales de tu layout (Asegúrate de mantener cómo las recibes/emites)
-const drawer = ref(true); // O inyectado via props si es tu caso
+const drawer = ref(true);
+const router = useRouter();
+
 const onBack = () => {
-  console.log("Regresando...");
-  // Tu lógica original de retroceso
+  router.back();
 };
 
-// ==========================================
-// LÓGICA DE NOTIFICACIONES
-// ==========================================
 const showNotifications = ref(false);
 
-// Interfaces para tipado
 interface Notification {
   id: string;
   title: string;
@@ -133,7 +130,6 @@ interface Notification {
   color: string;
 }
 
-// Datos simulados orientados al ecosistema MictlanX
 const notifications = ref<Notification[]>([
   {
     id: 'notif_1',
@@ -177,63 +173,27 @@ const notifications = ref<Notification[]>([
   }
 ]);
 
-// Propiedad computada para contar las no leídas
 const unreadCount = computed(() => {
   return notifications.value.filter(n => !n.read).length;
 });
 
-// Marcar una individual como leída al hacer clic
 const markAsRead = (id: string) => {
   const notif = notifications.value.find(n => n.id === id);
   if (notif && !notif.read) {
     notif.read = true;
-    // Aquí despacharías la llamada a tu backend: jubStore.markNotificationAsRead(id)
+    // Call : jubStore.markNotificationAsRead(id)
   }
 };
 
 // Marcar todas como leídas
 const markAllAsRead = () => {
   notifications.value.forEach(n => n.read = true);
-  // Llamada al backend: jubStore.markAllNotificationsAsRead()
+  // Call : jubStore.markAllNotificationsAsRead()
 };
 </script>
 
 <style scoped>
-/* Transición suave para el hover en las notificaciones */
 .v-list-item {
   transition: background-color 0.2s ease;
 }
 </style>
-<!-- <template>
-  <dashboard-drawer :model-value="drawer" />
-
-  <v-app-bar app color="white" elevation="0" height="72" class="px-2">
-    <template v-slot:prepend>
-      <v-btn @click="onBack" icon="mdi-arrow-left"></v-btn>
-    </template>
-    <template v-slot:append>
-
-      <v-btn icon="mdi-bell" variant="text" color="grey" />
-      <v-app-bar-nav-icon @click="drawer = !drawer" variant="text" color="grey"></v-app-bar-nav-icon>
-    </template>
-  </v-app-bar>
-  <v-main>
-    <router-view />
-  </v-main>
-</template>
-
-<script lang="ts" setup>
-//
-import { useRouter } from 'vue-router'
-
-const drawer = ref(true);
-const router = useRouter();
-
-const onBack = () => {
-  router.back();
-
-};
-const goProfile = () => {
-  router.push('/profile');
-};
-</script> -->

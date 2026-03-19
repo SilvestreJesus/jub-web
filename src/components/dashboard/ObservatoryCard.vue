@@ -1,6 +1,5 @@
 <template>
   <v-card class="mx-auto" elevation="2" rounded="xl" max-width="450">
-    <!-- <v-img :src="observatory?.image_url" height="230" cover class="align-end ma-2 rounded-lg"> -->
       <v-img 
         :src="observatory?.image_url || 'https://placehold.co/600x400/eeeeee/999999?text=NO+IMAGE'" 
         height="230" 

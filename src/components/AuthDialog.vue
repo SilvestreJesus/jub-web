@@ -27,14 +27,7 @@
 
       <v-card-text class="px-10 pb-8 text-center bg-white" style="position: relative;">
 
-        <!-- <div class="d-flex justify-center" style="margin-top: -32px; margin-bottom: 24px;">
-          <v-avatar size="64" class="bg-transparent">
-            <v-img 
-              alt="Logo"
-              src="@/assets/xolo.png"
-            ></v-img>
-          </v-avatar>
-        </div> -->
+   
 
         <v-form @submit.prevent="handleLogin">
 
@@ -67,8 +60,6 @@ import { useAuthStore, type AuthAttemptDTO } from '@/stores/auth';
 import { useRouter } from 'vue-router';
 import { useAppStore, SnackbarColor } from '@/stores/app';
 
-// defineModel automatically syncs the v-model from the parent component (Vue 3.4+)
-// const isOpen = defineModel<boolean>({ default: false });
 const authStore = useAuthStore();
 const router = useRouter();
 const appStore = useAppStore();
@@ -81,16 +72,8 @@ const password = ref('');
 
 const closeDialog = () => {
   authStore.showAuthDialog = false;
-  // Optional: clear fields on close
-  // username.value = '';
-  // password.value = '';
 };
-// const isLoading = ref(false);
-// const isError = ref(false);
-// const snackbarVisible = ref(false);
-// const snackbarMessage = ref('');
 const handleLogin = async () => {
-  // Pass the credentials to your Jub store or API client
   try {
     appStore.setIsLoading(true);
     const success = await authStore.login({
@@ -119,14 +102,11 @@ const handleLogin = async () => {
     }
 
   } catch (error) {
-    // Handle any unexpected errors (e.g., network issues)
-    // alert('Ocurrió un error inesperado. Por favor, intenta nuevamente más tarde.');
     appStore.showSnackbar('Ocurrió un error inesperado. Por favor, intenta nuevamente más tarde.', 3000, SnackbarColor.ERROR);
     console.error('Login error:', error);
   }
   finally {
     setTimeout(() => {
-      // isError.value = false;
       appStore.setIsLoading(false);
     }, 2000);
 
@@ -136,7 +116,6 @@ const handleLogin = async () => {
 </script>
 
 <style scoped>
-/* Vuetify handles most styling, but ensuring inputs have zero border radius aligns with your design */
 :deep(.v-field) {
   border-radius: 0 !important;
 }
