@@ -184,4 +184,6 @@ export const useAuthStore = defineStore('auth', () => {
         clearLocalStorage
     }
 
+},{
+    persist:true
 })

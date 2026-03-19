@@ -239,7 +239,10 @@
                 width="8"
                 class="mb-4"
               >
-                <span class="text-h5 font-weight-bold text-white">87%</span>
+                <span class="text-h5 font-weight-bold text-white">
+                  <vue3-autocounter :startAmount="0" :endAmount="87" :duration="2" suffix=" %" />
+                  <!-- <number-flow animated :value="87" :duration="5000" :formatter="(val:number) => val + '%'"/> -->
+                </span>
               </v-progress-circular>
               <div class="text-subtitle-1 font-weight-bold text-white mb-1">Cliente Ligero</div>
               <div class="text-caption text-grey-lighten-1">Cobertura de pruebas unitarias (Meta: ≥ 80%)</div>
@@ -266,7 +269,9 @@
                 width="8"
                 class="mb-4"
               >
-                <span class="text-h5 font-weight-bold text-white">82%</span>
+                <span class="text-h5 font-weight-bold text-white">
+                  <vue3-autocounter :startAmount="0" :endAmount="82" :duration="2" suffix=" %" />
+                </span>
               </v-progress-circular>
               <div class="text-subtitle-1 font-weight-bold text-white mb-1">Conectores Cloud</div>
               <div class="text-caption text-grey-lighten-1">Pruebas de integración (Meta: ≥ 80%)</div>
@@ -282,7 +287,9 @@
                 width="8"
                 class="mb-4"
               >
-                <span class="text-h5 font-weight-bold text-white">100%</span>
+                <span class="text-h5 font-weight-bold text-white">
+                  <vue3-autocounter :startAmount="0" :endAmount="100" :duration="2" suffix=" %" />
+                </span>
               </v-progress-circular>
               <div class="text-subtitle-1 font-weight-bold text-white mb-1">Casos de Uso</div>
               <div class="text-caption text-grey-lighten-1">Cumplimiento de los casos pactados</div>
@@ -488,6 +495,9 @@
 
     <v-footer class="bg-grey-darken-4 pt-12 pb-6 d-flex flex-column border-t" style="border-color: rgba(255,255,255,0.1) !important;">
       <v-container max-width="1200" class="pa-0">
+        <v-row justify="center" align="center" class="mb-8">
+          <v-img max-width="100" src="@/assets/mictlanx.svg" width="100"/>
+        </v-row>
         <v-row justify="space-between" class="mb-8">
           
           <v-col cols="12" md="4" class="text-center text-md-left mb-6 mb-md-0">
@@ -558,6 +568,10 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
+import Vue3Autocounter  from 'vue3-autocounter';
+// import NumberFlow from '@number-flow/vue'
+// import type { B } from 'node_modules/vitest/dist/chunks/config.d.Cy95HiCx';
+
 
 definePage({
   name: 'MictlanX',
