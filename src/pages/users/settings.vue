@@ -32,10 +32,10 @@
                   density="comfortable"
                   @update:model-value="toggleTheme"
                 >
-                  <v-btn value="light" class="text-none">
+                  <v-btn value="jubThemeLight" class="text-none">
                     <v-icon start>mdi-white-balance-sunny</v-icon> Claro
                   </v-btn>
-                  <v-btn value="dark" class="text-none">
+                  <v-btn value="jubThemeDark" class="text-none">
                     <v-icon start>mdi-weather-night</v-icon> Oscuro
                   </v-btn>
                 </v-btn-toggle>
@@ -141,7 +141,7 @@
                   density="comfortable"
                 >
                   <v-btn value="json" class="font-weight-bold">JSON</v-btn>
-                  <v-btn value="csv" class="font-weight-bold">CSV</v-btn>
+                  <v-btn value="yml" class="font-weight-bold">YML</v-btn>
                 </v-btn-toggle>
               </template>
             </v-list-item>
@@ -191,7 +191,7 @@ const showSnackbar = ref(false)
 
 // Objeto de configuración (Idealmente esto viene de un store de Pinia persistido)
 const settings = ref({
-  theme: 'light',
+  theme: 'jubThemeLight', // o 'jubThemeDark'
   itemsPerPage: 24,
   defaultView: 'grid',
   reduceAnimations: false,

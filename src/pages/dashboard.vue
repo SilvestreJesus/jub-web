@@ -1,6 +1,138 @@
 <template>
-  <v-container class="py-10">
-    <div class="text-center mb-10">
+  <v-container max-width="1400" class="py-8">
+    
+    <v-row justify="center" class="mb-10 mt-4">
+      <v-col cols="12" md="10" lg="8" class="text-center">
+        
+        <h1 class="text-h3 font-weight-black mb-3">Observatorios</h1>
+        <p class="text-body-1 text-grey-darken-1 mb-8">
+          Escribe tu consulta DSL para filtrar y explorar los conjuntos de datos.
+        </p>
+
+        <div class="position-relative">
+          <v-text-field 
+            id="search-input" 
+            v-model="searchQuery" 
+            :rules="dslRules"
+            validate-on="input" 
+            placeholder="Ej: jub.v1.VS(TAMPS).VT(2025)" 
+            variant="solo" 
+            elevation="3"
+            rounded="xl" 
+            bg-color="surface" 
+            clearable 
+            hide-details="auto"
+            class="text-body-1"
+            @keyup.enter="executeSearch" 
+            @update:model-value="handleTyping"
+          >
+            <template v-slot:prepend-inner>
+              <v-icon color="primary" class="mr-2">mdi-database-search-outline</v-icon>
+            </template>
+            <template v-slot:append-inner>
+              <v-icon color="grey-darken-1">mdi-tune</v-icon>
+            </template>
+          </v-text-field>
+
+          <v-menu 
+            v-model="showAutocomplete" 
+            activator="#search-input" 
+            :close-on-content-click="true"
+            :open-on-click="false" 
+            :open-on-focus="false" 
+            offset-y
+            location="bottom center"
+          >
+            <v-card rounded="xl" elevation="4" class="mt-2 border">
+              <v-list v-if="dynamicSuggestions.length > 0" max-height="300" bg-color="surface">
+                <v-list-item 
+                  v-for="item in dynamicSuggestions" 
+                  :key="item" 
+                  @click="insertSuggestion(item)"
+                  class="cursor-pointer transition-swing"
+                  hover
+                >
+                  <template v-slot:prepend>
+                    <v-icon size="small" color="secondary-blue" class="mr-3">mdi-tag-outline</v-icon>
+                  </template>
+                  <v-list-item-title class="font-weight-bold text-primary">
+                    {{ item }}
+                  </v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-card>
+          </v-menu>
+        </div>
+
+      </v-col>
+    </v-row>
+
+    <v-row align="center" justify="space-between" class="mb-4" v-if="filteredObservatories.length > 0 || searchCounter > 0">
+      <v-col cols="auto">
+        <v-btn variant="text" color="grey-darken-1" prepend-icon="mdi-help-circle-outline" class="text-none text-caption font-weight-bold">
+          ¿Cómo realizar búsquedas usando identificadores?
+        </v-btn>
+      </v-col>
+
+      <v-col cols="auto" class="d-flex align-center ga-4">
+        <span class="text-caption font-weight-bold text-grey-darken-1">
+          {{ filteredObservatories.length }} resultados
+        </span>
+
+        <v-btn-toggle
+          v-model="viewMode"
+          color="primary"
+          variant="outlined"
+          divided
+          rounded="pill"
+          density="comfortable"
+          mandatory
+        >
+          <v-btn value="grid" icon="mdi-view-grid-outline" size="small"></v-btn>
+          <v-btn value="table" icon="mdi-table" size="small"></v-btn>
+        </v-btn-toggle>
+      </v-col>
+    </v-row>
+
+    <v-divider class="mb-6" v-if="filteredObservatories.length > 0 || searchCounter > 0"></v-divider>
+
+    <v-row v-if="viewMode === 'grid' && filteredObservatories.length > 0" class="d-flex align-stretch">
+      <v-col v-for="observatory in filteredObservatories" :key="observatory.observatory_id" cols="12" sm="6" md="4">
+        <ObservatoryCard :observatory="observatory" @show-details="goToDetails" class="h-100" />
+      </v-col>
+    </v-row>
+
+    <v-row v-else-if="viewMode === 'table' && filteredObservatories.length > 0">
+      <v-col cols="12">
+        <v-card rounded="xl" elevation="2" class="overflow-hidden border">
+          <ObservatoryTables :items="filteredObservatories" @show-details="goToDetails" />
+        </v-card>
+      </v-col>
+    </v-row>
+
+    <v-row class="d-flex justify-center mt-8" v-else-if="searchCounter > 0 && filteredObservatories.length === 0">
+      <v-col cols="12" md="8">
+        <v-card rounded="xl" elevation="0" color="transparent" class="text-center pa-8">
+          <v-empty-state
+            icon="mdi-package-variant-remove"
+            image="https://vuetifyjs.b-cdn.net/docs/images/components/v-empty-state/astro-cat.svg"
+            headline="Sin observatorios asociados"
+            title="No hay observatorios asociados a esta consulta."
+            text="Pero puedes programar una nueva tarea para crear un observatorio privado que podrás publicar después."
+            action-text="Personalizar Tarea de Observatorio"
+            @click:action="showCreateDialog = true"
+            color="primary"
+            action-color="black"
+          ></v-empty-state>
+        </v-card>
+      </v-col>
+    </v-row>
+
+    <CreateObservatoryDialog :model-value="showCreateDialog" @update:model-value="showCreateDialog = $event" />
+  
+  </v-container>
+  <!-- <v-container class="py-10"> -->
+    <!-- <div class="text-center mb-10">
 
       <v-responsive max-width="700" class="justify-content-center mx-auto">
         <v-row no-gutters align="center" justify="center">
@@ -47,22 +179,24 @@
         </v-row>
 
       </v-responsive>
-    </div>
+    </div> -->
 
     <!-- Observatories Grid View -->
-    <v-row v-if="viewMode === 'grid' && filteredObservatories.length > 0" class="d-flex align-stretch">
+    <!-- <v-row v-if="viewMode === 'grid' && filteredObservatories.length > 0" class="d-flex align-stretch">
       <v-col v-for="observatory in filteredObservatories" :key="observatory.observatory_id" cols="12" sm="6" md="6">
         <ObservatoryCard :observatory="observatory" @show-details="goToDetails" />
       </v-col>
-    </v-row>
+    </v-row> -->
     <!-- Observatories Table View -->
-    <v-row v-else-if="viewMode === 'table' && filteredObservatories.length > 0">
+    <!-- <v-row v-else-if="viewMode === 'table' && filteredObservatories.length > 0">
       <v-col cols="12">
         <ObservatoryTables :items="filteredObservatories" @show-details="goToDetails" />
       </v-col>
-    </v-row>
+    </v-row> -->
+
+
      <!-- No Observatories Found -->
-    <v-row class="d-flex justify-center" v-else-if="searchCounter>0 && filteredObservatories.length == 0">
+    <!-- <v-row class="d-flex justify-center" v-else-if="searchCounter>0 && filteredObservatories.length == 0">
         <v-empty-state
           icon="mdi-package-variant-remove"
           image="https://vuetifyjs.b-cdn.net/docs/images/components/v-empty-state/astro-cat.svg"
@@ -75,12 +209,17 @@
           action-color="primary"
         >
         </v-empty-state>
-    </v-row>
+    </v-row> -->
 
     <!-- Create observatory dialog -->
-    <CreateObservatoryDialog :model-value="showCreateDialog" @update:model-value="showCreateDialog = $event" />
+    <!-- <CreateObservatoryDialog :model-value="showCreateDialog" @update:model-value="showCreateDialog = $event" /> -->
   
-  </v-container>
+  <!-- </v-container> -->
+
+
+
+
+  
 </template>
 
 <script lang="ts" setup>
