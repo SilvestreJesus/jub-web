@@ -1,14 +1,5 @@
-# Vuetify (Default)
-
-This is the official scaffolding tool for Vuetify, designed to give you a head start in building your new Vuetify application. It sets up a base template with all the necessary configurations and standard directory structure, enabling you to begin development without the hassle of setting up the project from scratch.
-
-## ❗️ Important Links
-
-- 📄 [Docs](https://vuetifyjs.com/)
-- 🚨 [Issues](https://issues.vuetifyjs.com/)
-- 🏬 [Store](https://store.vuetifyjs.com/)
-- 🎮 [Playground](https://play.vuetifyjs.com/)
-- 💬 [Discord](https://community.vuetifyjs.com)
+# Jub UI 
+This repository contains the source code for Jub UI, the front-end application of the Jub project. It is built using Vue 3 and Vuetify 3, providing a modern and responsive user interface.
 
 ## 💿 Install
 
@@ -21,7 +12,7 @@ Set up your project using your preferred package manager. Use the corresponding 
 | [pnpm](https://pnpm.io/installation)                          | `pnpm install` |
 | [bun](https://bun.sh/#getting-started)                        | `bun install`  |
 
-After completing the installation, your environment is ready for Vuetify development.
+After completing the installation, your environment is ready for Jub UI development.
 
 ## ✨ Features
 
@@ -33,7 +24,7 @@ After completing the installation, your environment is ready for Vuetify develop
 - 🧩 **Automated Component Importing**: Streamline your workflow with unplugin-vue-components, automatically importing components as you use them. [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components)
 - 🛠️ **Strongly-Typed Vue**: Use vue-tsc for type-checking your Vue components, and enjoy a robust development experience. [vue-tsc](https://github.com/johnsoncodehk/volar/tree/master/packages/vue-tsc)
 
-These features are curated to provide a seamless development experience from setup to deployment, ensuring that your Vuetify application is both powerful and maintainable.
+These features are curated to provide a seamless development experience from setup to deployment, ensuring that Jub UI is both powerful and maintainable.
 
 ## 💡 Usage
 
@@ -44,38 +35,74 @@ This section covers how to start the development server and build your project f
 To start the development server with hot-reload, run the following command. The server will be accessible at [http://localhost:3000](http://localhost:3000):
 
 ```bash
-yarn dev
+npm run dev
 ```
 
 (Repeat for npm, pnpm, and bun with respective commands.)
 
 > Add NODE_OPTIONS='--no-warnings' to suppress the JSON import warnings that happen as part of the Vuetify import mapping. If you are on Node [v21.3.0](https://nodejs.org/en/blog/release/v21.3.0) or higher, you can change this to NODE_OPTIONS='--disable-warning=5401'. If you don't mind the warning, you can remove this from your package.json dev script.
 
+
+
+### Local deployment with Docker
+To deploy your project locally using Docker, use the following command:
+
+```bash
+chmod +x ./deploy.sh
+./deploy.sh .env.dev
+```
+
+If you need to change the local ports for MongoDB, Redis, or the API, you can set the following environment variables in your .<service>.env.dev file, for example: 
+```bash
+# .xolo.env.dev
+XOLO_MONGODB_LOCAL_PORT=27018
+XOLO_CACHE_REDIS_LOCAL_PORT=6379
+XOLO_LOCAL_PORT=10000
+# Other environment variables...
+```
+
+#### Create `invitado` user for local development
+To create the `invitado` user with read-only access to the dashboard:
+
+```bash
+chmod +x ./create_user.sh
+./create_user.sh <username> <password>
+```
+
+⚠️ If you don't provide a username and password, the script will create a user with the default credentials: `invitado`/`invitado`. 
+
+
+#### Create test observatories for local testing
+To create test observatories you can upload the `obs_test.yml` file using the `CREAR UN OBSERVATORIO` button in the UI, or you can use the following command:
+
+```bash
+chmod +x ./create_test_observatories.sh
+./create_test_observatories.sh
+```
+
+
 ### Building for Production
 
 To build your project for production, use:
 
 ```bash
-yarn build
+npm run build
 ```
 
 (Repeat for npm, pnpm, and bun with respective commands.)
 
 Once the build process is completed, your application will be ready for deployment in a production environment.
+### Building for Production (Docker)
 
-## 💪 Support Vuetify Development
+To build your project for production using Docker, use:
 
-This project is built with [Vuetify](https://vuetifyjs.com/en/), a UI Library with a comprehensive collection of Vue components. Vuetify is an MIT licensed Open Source project that has been made possible due to the generous contributions by our [sponsors and backers](https://vuetifyjs.com/introduction/sponsors-and-backers/). If you are interested in supporting this project, please consider:
+```bash
+chmod +x ./build.sh
+./build.sh jub:ui
+```
 
-- [Requesting Enterprise Support](https://support.vuetifyjs.com/)
-- [Sponsoring John on Github](https://github.com/users/johnleider/sponsorship)
-- [Sponsoring Kael on Github](https://github.com/users/kaelwd/sponsorship)
-- [Supporting the team on Open Collective](https://opencollective.com/vuetify)
-- [Becoming a sponsor on Patreon](https://www.patreon.com/vuetify)
-- [Becoming a subscriber on Tidelift](https://tidelift.com/subscription/npm/vuetify)
-- [Making a one-time donation with Paypal](https://paypal.me/vuetify)
 
 ## 📑 License
 [MIT](http://opensource.org/licenses/MIT)
 
-Copyright (c) 2016-present Vuetify, LLC
+Copyright (c) 2026 Ignacio Castillo

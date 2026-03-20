@@ -163,7 +163,7 @@
           headline="Sin productos asociados"
           title="No hay productos que coincidan con esta consulta."
           text="Puedes programar una nueva tarea para generar los datos que necesitas."
-          action-text="Generar Nuevo Producto"
+          action-text="Creat un observatorio"
           @click:action="showCreateDialog = true"
           color="primary"
           action-color="black"

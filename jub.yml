@@ -1,40 +1,145 @@
 services:
- jub-ui:
-  build:
-    context: .
-    dockerfile: Dockerfile
-  image: ${JUB_UI_IMAGE:-jub:ui-0.0.1a0}
-  ports:
-    - ${JUB_UI_PORT:-8080}:80
-  networks:
-    - jub
-  restart: unless-stopped
+  xolo-db:
+    image: mongo:8-noble
+    # Open ports only for development, not in production
+    ports:
+      - ${XOLO_MONGODB_LOCAL_PORT:-27018}:27017
+    volumes:
+      - xolo-db:/data/db
+      - ./db/mongod.conf:/etc/mongo/mongod.conf:ro
+    networks:
+      - jub
+    restart: unless-stopped
+    command: ["mongod", "--config","/etc/mongo/mongod.conf"]
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '1'
+          memory: 2G
+      restart_policy:
+        condition: on-failure
+  # =============================
+  # XOLO Cache Service
+  # =============================
+  xolo-cache:
+    image: redis:7.0.11-alpine
+    # Open ports only for development, not in production
+    ports:
+      - ${XOLO_CACHE_REDIS_LOCAL_PORT:-6379}:6379
+    volumes:
+      - xolo-cache-data:/data
+    networks:
+      - jub
+    restart: unless-stopped
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '1'
+          memory: 2G
+      restart_policy:
+        condition: on-failure
 
- jub-db:
-  image: mongo:8-noble
-  ports:
-    - ${JUB_MONGODB_PORT:-27027}:27017
-  volumes:
-    - jub-db:/data/db
-    - ./db/mongod.conf:/etc/mongo/mongod.conf
-  command: mongod --config /etc/mongo/mongod.conf
-  networks:
-    - jub
-  restart: unless-stopped
-  
- jub:
-  image: ${JUB_IMAGE_NAME:-nachocode/jub:api-0.0.1a1-nightly}
-  env_file:
-    - .env
-  ports:
-    - 5000:5000
-  networks:
-    - jub
-  command: uvicorn jubapi.server:app --host ${JUB_HOST:-0.0.0.0} --port ${JUB_PORT:-5000} --reload
-  # volumes:
-    # - "/log:/log"
+
+  # =============================
+  # XOLO API Service
+  # =============================
+  xolo:
+    image: ${XOLO_IMAGE:-nachocode/xolo:api-0.0.11a0}
+    env_file:
+      - ./.xolo.env.dev
+    # Open ports only for development, not in production
+    ports:
+      - ${XOLO_LOCAL_PORT:-10000}:10000
+    volumes:
+      - xolo-data:/xolo
+    networks:
+      - jub
+    restart: unless-stopped
+    command: uvicorn xoloapi.server:app --host ${XOLO_HOST-0.0.0.0} --port 10000 --log-level debug
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
+  # =============================
+  # JUB API Service
+  # =============================
+  jub-db:
+    image: mongo:8-noble
+    volumes:
+      - jub-db:/data/db
+      - ./db/mongod.conf:/etc/mongo/mongod.conf
+    command: mongod --config /etc/mongo/mongod.conf
+    networks:
+      - jub
+    ports:
+      - ${JUB_MONGODB_LOCAL_PORT:-27019}:27017
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+      restart_policy:
+        condition: on-failure
+    
+  jub:
+    image: nachocode/jub:api-0.0.1a2-nightly
+    env_file:
+      - .jub.env.dev
+    networks:
+      - jub
+    command: uvicorn jubapi.server:app --host ${JUB_HOST:-0.0.0.0} --port ${JUB_PORT:-5000}
+    ports:
+      - ${JUB_LOCAL_PORT:-5000}:5000
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '4'
+          memory: 2G
+      restart_policy:
+        condition: on-failure
+
+
+  # =============================
+  # JUB UI 
+  # =============================
+  jubui:
+    image: ${JUB_UI_IMAGE:-jub:ui-0.0.1a2-nightly}
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    env_file:
+      - .env.dev
+    ports:
+      - ${JUB_UI_LOCAL_PORT:-3000}:80
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+      restart_policy:
+        condition: on-failure
+    
+    networks:
+      - jub
 
 networks:
   jub:
+    external: true
 volumes:
+  xolo-db:
+  xolo-cache-data:
+  xolo-data:
   jub-db:
