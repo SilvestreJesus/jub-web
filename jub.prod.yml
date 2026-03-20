@@ -1,12 +1,171 @@
 services:
+  xolo-db:
+    image: mongo:8-noble
+    # ports:
+      # - ${XOLO_MONGODB_PORT:-27018}:27017
+    volumes:
+      - xolo-db:/data/db
+      - /home/jcastillo/jub/mongod.conf:/etc/mongo/mongod.conf:ro
+
+    networks:
+      - jub
+    restart: unless-stopped
+    command: ["mongod", "--config","/etc/mongo/mongod.conf"]
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '1'
+          memory: 4G
+      
+      placement:
+        constraints: [node.labels.index == 14]
+
+      restart_policy:
+        condition: on-failure
+  # =============================
+  # XOLO Cache Service
+  # =============================
+  xolo-cache:
+    image: redis:7.0.11-alpine
+    # ports:
+      # - ${XOLO_CACHE_REDIS_PORT:-6379}:6379
+    volumes:
+      - xolo-cache-data:/data
+    networks:
+      - jub
+    restart: unless-stopped
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '1'
+          memory: 4G
+      
+      placement:
+        constraints: [node.role == worker]
+
+      restart_policy:
+        condition: on-failure
+
+
+  # =============================
+  # XOLO API Service
+  # =============================
+  xolo:
+    image: nachocode/xolo:api-0.0.11a0
+    env_file:
+      - /home/jcastillo/jub/.xolo.env.prod
+    # environment:
+    # ports:
+      # - ${XOLO_PORT:-10001}:${XOLO_PORT:-10001}
+    volumes:
+      - xolo-data:/xolo
+    networks:
+      - jub
+      - traefik-pub
+    restart: unless-stopped
+    command: uvicorn xoloapi.server:app --host ${XOLO_HOST-0.0.0.0} --port ${XOLO_PORT-10000} --log-level debug
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+      
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.xolo.rule=Host(`apix.tamps.cinvestav.mx`) && PathPrefix(`/xolo`)"
+        - "traefik.http.routers.xolo.entrypoints=websecure"
+        - "traefik.http.routers.xolo.tls=true"
+        - "traefik.http.routers.xolo.tls.certresolver=resolverx"
+        - "traefik.http.routers.xolo-http.entrypoints=web"
+        - "traefik.http.services.xolo.loadbalancer.server.port=10000"
+        - "traefik.http.routers.xolo-http.middlewares=redirect-to-https"
+        - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+        - "traefik.docker.network=traefik-pub"
+
+      update_config:
+        parallelism: 1
+        delay: 10s
+
+      placement:
+        constraints: [node.labels.index == 14]
+
+      restart_policy:
+        condition: on-failure
+
+  # =============================
+  # JUB API Service
+  # =============================
+  jub-db:
+    image: mongo:8-noble
+    volumes:
+      - jub-db:/data/db
+      - /home/jcastillo/jub/mongod.conf:/etc/mongo/mongod.conf
+    command: mongod --config /etc/mongo/mongod.conf
+    networks:
+      - jub
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+      
+      placement:
+        constraints: [node.labels.index == 14]
+
+      restart_policy:
+        condition: on-failure
+    # restart: unless-stopped
   
+    
+  jub:
+    image: nachocode/jub:api-0.0.1a2-nightly
+    env_file:
+      - .jub.env.prod
+    networks:
+      - jub
+      - traefik-pub
+    command: uvicorn jubapi.server:app --host ${JUB_HOST:-0.0.0.0} --port ${JUB_PORT:-5000}
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '4'
+          memory: 8G
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.jub.rule=Host(`apix.tamps.cinvestav.mx`) && PathPrefix(`/jub`)"
+        - "traefik.http.routers.jub.entrypoints=websecure"
+        - "traefik.http.routers.jub.tls=true"
+        - "traefik.http.routers.jub.tls.certresolver=resolverx"
+        - "traefik.http.routers.jub-http.entrypoints=web"
+        - "traefik.http.services.jub.loadbalancer.server.port=5000"
+        - "traefik.http.routers.jub-http.middlewares=redirect-to-https"
+        - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+        - "traefik.docker.network=traefik-pub"
+      placement:
+        constraints: [node.labels.index == 14]
+
+      restart_policy:
+        condition: on-failure
+
+
+
+
+  # =============================
+  # JUB UI 
+  # =============================
   jubui:
     
-    image: nachocode/jub:ui-0.0.1a0
+    image: nachocode/jub:ui-0.0.1a2-nightly
     
     environment:
-      VITE_APP_JUB_API: ""
-    
+      VITE_JUB_API_URL: "https://apix.tamps.cinvestav.mx/jub"
+      VITE_XOLO_API_URL: "https://apix.tamps.cinvestav.mx/xolo/api/v4"
+
     deploy:
       replicas: 1
       resources:
@@ -25,6 +184,7 @@ services:
         - "traefik.http.services.jubui.loadbalancer.server.port=80"
         - "traefik.http.routers.jubui-http.middlewares=redirect-to-https"
         - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+        - "traefik.docker.network=traefik-pub"
 
       update_config:
         parallelism: 1
@@ -47,3 +207,8 @@ networks:
   
   jub:
     external: true
+volumes:
+  xolo-db:
+  xolo-cache-data:
+  xolo-data:
+  jub-db:

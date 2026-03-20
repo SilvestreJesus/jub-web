@@ -9,6 +9,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { setupLayouts } from 'virtual:generated-layouts'
 import { routes } from 'vue-router/auto-routes'
 import { useAuthStore, type VerifyDTO } from '@/stores/auth'
+import { useAppStore,SnackbarColor } from '@/stores/app'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: setupLayouts(routes),
@@ -19,6 +20,7 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
+  const appStore = useAppStore();
   const requiresAuth = to.meta.requiresAuth || false;
 
   console.log(`Navigating from ${from.fullPath} to ${to.fullPath} - [requiresAuth: ${requiresAuth}]`)
@@ -41,15 +43,22 @@ router.beforeEach(async (to, from, next) => {
   } 
 
   else if (!token || !secret || !username) {
-    console.log("Missing authentication data, redirecting to home.")
+    // console.log("Missing authentication data, redirecting to home.")
+    appStore.showSnackbar("Por favor, inicie sesión para acceder a esta página.",2000, SnackbarColor.WARNING)
+    if (requiresAuth) {
+      return next("/signin")
+    }
     return next("/")
   } 
   
   else {
     const isAuthenticated = await authStore.verifyToken({ access_token: token, secret, username } as VerifyDTO)
-
+    
     if (!isAuthenticated) {
-      return next("/")
+      // console.log("Invalid token, redirecting to home and clearing local storage.")
+      appStore.showSnackbar("Su sesión ha expirado, por favor inicie sesión nuevamente.",2000, SnackbarColor.ERROR) 
+      authStore.clearLocalStorage();
+      return next("/signin")
     }
     return next()
   }

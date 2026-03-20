@@ -19,15 +19,27 @@ declare module 'vue-router/auto-routes' {
    */
   export interface RouteNamedMap {
     'Home': RouteRecordInfo<'Home', '/', Record<never, never>, Record<never, never>>,
+    'Catalogs': RouteRecordInfo<'Catalogs', '/catalogs', Record<never, never>, Record<never, never>>,
+    'CatalogDetails': RouteRecordInfo<'CatalogDetails', '/catalogs/:catalogId', { catalogId: ParamValue<true> }, { catalogId: ParamValue<false> }>,
     'Contact': RouteRecordInfo<'Contact', '/contact', Record<never, never>, Record<never, never>>,
     'Dashboard': RouteRecordInfo<'Dashboard', '/dashboard', Record<never, never>, Record<never, never>>,
     'Observatories': RouteRecordInfo<'Observatories', '/observatories', Record<never, never>, Record<never, never>>,
+    'ObservatoryDetails': RouteRecordInfo<'ObservatoryDetails', '/observatories/:observatory_id', { observatory_id: ParamValue<true> }, { observatory_id: ParamValue<false> }>,
+    'Alerta': RouteRecordInfo<'Alerta', '/observatories/alerta', Record<never, never>, Record<never, never>>,
     'Azomalli': RouteRecordInfo<'Azomalli', '/observatories/azomalli', Record<never, never>, Record<never, never>>,
     'IMA': RouteRecordInfo<'IMA', '/observatories/ima', Record<never, never>, Record<never, never>>,
+    'Kaexla': RouteRecordInfo<'Kaexla', '/observatories/kaexla', Record<never, never>, Record<never, never>>,
+    'Products': RouteRecordInfo<'Products', '/products', Record<never, never>, Record<never, never>>,
     'Services': RouteRecordInfo<'Services', '/services', Record<never, never>, Record<never, never>>,
     'MictlanX': RouteRecordInfo<'MictlanX', '/services/mictlanx', Record<never, never>, Record<never, never>>,
     'Nez': RouteRecordInfo<'Nez', '/services/nez', Record<never, never>, Record<never, never>>,
     'Xelhua': RouteRecordInfo<'Xelhua', '/services/xelhua', Record<never, never>, Record<never, never>>,
+    'Signin': RouteRecordInfo<'Signin', '/signin', Record<never, never>, Record<never, never>>,
+    'TasksIndex': RouteRecordInfo<'TasksIndex', '/tasks', Record<never, never>, Record<never, never>>,
+    'TaskDetails': RouteRecordInfo<'TaskDetails', '/tasks/:taskId', { taskId: ParamValue<true> }, { taskId: ParamValue<false> }>,
+    'UsersIndex': RouteRecordInfo<'UsersIndex', '/users', Record<never, never>, Record<never, never>>,
+    'UserProfile': RouteRecordInfo<'UserProfile', '/users/profile', Record<never, never>, Record<never, never>>,
+    'Settings': RouteRecordInfo<'Settings', '/users/settings', Record<never, never>, Record<never, never>>,
   }
 
   /**
@@ -45,6 +57,14 @@ declare module 'vue-router/auto-routes' {
       routes: 'Home'
       views: never
     }
+    'src/pages/catalogs/index.vue': {
+      routes: 'Catalogs'
+      views: never
+    }
+    'src/pages/catalogs/[catalogId].vue': {
+      routes: 'CatalogDetails'
+      views: never
+    }
     'src/pages/contact.vue': {
       routes: 'Contact'
       views: never
@@ -57,12 +77,28 @@ declare module 'vue-router/auto-routes' {
       routes: 'Observatories'
       views: never
     }
+    'src/pages/observatories/[observatory_id].vue': {
+      routes: 'ObservatoryDetails'
+      views: never
+    }
+    'src/pages/observatories/alerta.vue': {
+      routes: 'Alerta'
+      views: never
+    }
     'src/pages/observatories/azomalli.vue': {
       routes: 'Azomalli'
       views: never
     }
     'src/pages/observatories/ima.vue': {
       routes: 'IMA'
+      views: never
+    }
+    'src/pages/observatories/kaexla.vue': {
+      routes: 'Kaexla'
+      views: never
+    }
+    'src/pages/products/index.vue': {
+      routes: 'Products'
       views: never
     }
     'src/pages/services/index.vue': {
@@ -79,6 +115,30 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/services/xelhua.vue': {
       routes: 'Xelhua'
+      views: never
+    }
+    'src/pages/signin.vue': {
+      routes: 'Signin'
+      views: never
+    }
+    'src/pages/tasks/index.vue': {
+      routes: 'TasksIndex'
+      views: never
+    }
+    'src/pages/tasks/[taskId].vue': {
+      routes: 'TaskDetails'
+      views: never
+    }
+    'src/pages/users/index.vue': {
+      routes: 'UsersIndex'
+      views: never
+    }
+    'src/pages/users/profile.vue': {
+      routes: 'UserProfile'
+      views: never
+    }
+    'src/pages/users/settings.vue': {
+      routes: 'Settings'
       views: never
     }
   }

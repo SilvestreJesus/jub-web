@@ -5,7 +5,7 @@ COPY package*.json ./
 RUN npm i --legacy-peer-deps
 # 2. Copy the REST of the project files, .dockerignore prevents unnecessary files from being copied
 COPY . .
-RUN npm run build
+RUN npm run build:prod
 
 FROM nginx:stable-alpine AS production-stage
 COPY --from=build-stage /app/dist /usr/share/nginx/html

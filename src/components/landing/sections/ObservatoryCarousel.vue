@@ -21,9 +21,8 @@
 
 
 <script setup lang="ts">
-import ObservatoryCard from './ObservatoryCard.vue';
+import ObservatoryCard from './ObservatoryCarouselCard.vue';
 
-//datos de ejemplo, para mostrar el funcionamiento del carrusel.
 const observatories = [
   {
     title: 'Azomalli: Observatorio de salud mental',
@@ -59,7 +58,6 @@ const observatories = [
 </script>
 
 <style scoped>
-/* Círculo de las flechas  */
 .custom-indicators :deep(.v-window__controls .v-btn) {
   background-color: #2196F3 !important;
   color: white !important;           

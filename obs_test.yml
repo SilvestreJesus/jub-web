@@ -1,0 +1,243 @@
+catalogs:
+  - catalog_id: "cat_spatial"
+    value: "SPATIAL"
+    catalog_type: "SPATIAL"
+    name: "Spatial Catalog"
+    description: "Geographic dimensions"
+    items:
+      - catalog_item_id: "MX"
+        name: "Mexico"
+        value: "MX"
+        code: 0
+        value_type: "STRING"
+        description: ""
+        parent_id: null
+        aliases:
+          - alias_id: "MX_ALIAS_1"
+            value: "MX_ALIAS_1"
+            description: "Alias 1 for Mexico"
+          - alias_id: "MX_ALIAS_2"
+            value: "MX_ALIAS_2"
+            description: "Alias 2 for Mexico"
+      - catalog_item_id: "TAM"
+        name: "TAM"
+        value: "TAM"
+        code: 1
+        value_type: "STRING"
+        description: ""
+        parent_id: "MX"
+        aliases: [] # Add aliases here as needed
+  - catalog_id: "cat_time"
+    value: "TEMPORAL"
+    catalog_type: "TEMPORAL"
+    name: "Temporal Catalog"
+    description: "Time dimensions"
+    items:
+      - catalog_item_id: "Y2000"
+        name: "2000"
+        value: "2000"
+        code: 2000
+        temporal_value: "2000-01-01T00:00:00Z"
+        value_type: "DATETIME"
+        parent_id: null
+        aliases:
+          - alias_id: "2000_ALIAS_1"
+            value: "2000_ALIAS_1"
+            value_type: "DATETIME"
+            description: "Alias 1 for 2000"
+          - alias_id: "2000_ALIAS_2"
+            value: "2000_ALIAS_2"
+            value_type: "DATETIME"
+            description: "Alias 2 for 2000"
+      - catalog_item_id: "Y2001"
+        name: "2001"
+        value: "2001"
+        code: 2001
+        temporal_value: "2001-01-01T00:00:00Z"
+        value_type: "DATETIME"
+        parent_id: null
+        aliases:
+          - alias_id: "2001_ALIAS_1"
+            value: "2001_ALIAS_1"
+            value_type: "DATETIME"
+            description: "Alias 1 for 2001"
+          - alias_id: "2001_ALIAS_2"
+            value: "2001_ALIAS_2"
+            value_type: "DATETIME"
+            description: "Alias 2 for 2001"
+
+  - catalog_id: "cat_sex"
+    value: "SEX"
+    catalog_type: "INTEREST"
+    name: "Sex Catalog"
+    description: "Biological sex variables"
+    items:
+      - catalog_item_id: "FEMALE"
+        name: "Female"
+        value: "FEMALE"
+        code: 1
+        value_type: "STRING"
+        parent_id: null
+        aliases:
+          - alias_id: "FEMALE_ALIAS_1"
+            value: "FEMALE_ALIAS_1"
+            value_type: "STRING"
+            description: "Alias 1 for Female"
+
+  - catalog_id: "cat_plot"
+    value: "PLOT_TYPE"
+    catalog_type: "INTEREST"
+    name: "Plot Type Catalog"
+    description: "Visualization types"
+    items:
+      - catalog_item_id: "LINE"
+        name: "LINE Chart"
+        value: "LINE"
+        code: 0
+        value_type: "STRING"
+        parent_id: null
+        aliases: []
+      - catalog_item_id: "BAR"
+        name: "BAR Chart"
+        value: "BAR"
+        code: 1
+        value_type: "STRING"
+        parent_id: null
+        aliases: []
+      - catalog_item_id: "HEATMAP"
+        name: "HEATMAP Chart"
+        value: "HEATMAP"
+        code: 2
+        value_type: "STRING"
+        parent_id: null
+        aliases: []
+      - catalog_item_id: "SCATTER"
+        name: "SCATTER Chart"
+        value: "SCATTER"
+        code: 3
+        value_type: "STRING"
+        parent_id: null
+        aliases: []
+      - catalog_item_id: "BOX"
+        name: "BOX Chart"
+        value: "BOX"
+        code: 4
+        value_type: "STRING"
+        parent_id: null
+        aliases: []
+      - catalog_item_id: "PIE"
+        name: "PIE Chart"
+        value: "PIE"
+        code: 5
+        value_type: "STRING"
+        parent_id: null
+        aliases: []
+      - catalog_item_id: "VIOLIN"
+        name: "VIOLIN Chart"
+        value: "VIOLIN"
+        code: 6
+        value_type: "STRING"
+        parent_id: null
+        aliases: []
+      - catalog_item_id: "AREA"
+        name: "AREA Chart"
+        value: "AREA"
+        code: 7
+        value_type: "STRING"
+        parent_id: null
+        aliases: []
+      - catalog_item_id: "DENSITY"
+        name: "DENSITY Chart"
+        value: "DENSITY"
+        code: 8
+        value_type: "STRING"
+        parent_id: null
+        aliases: []
+
+  - catalog_id: "cat_cie10"
+    value: "CIE10"
+    catalog_type: "INTEREST"
+    name: "CIE-10 Catalog"
+    description: "Medical diagnoses"
+    items:
+      # Level 1: Chapter
+      - catalog_item_id: "II"
+        name: "Neoplasias (C00-D48)"
+        value: "II"
+        code: 0
+        value_type: "STRING"
+        parent_id: null
+        aliases: []
+      
+      # Level 2: Category (Child of Chapter II)
+      - catalog_item_id: "C50"
+        name: "C50 - Tumor maligno de la mama"
+        value: "C50"
+        code: 0
+        value_type: "STRING"
+        parent_id: "II"
+        aliases: []
+      
+      # Level 3: Subcategory (Child of Category C50)
+      - catalog_item_id: "C50_1"
+        name: "C50.1 - Porción no especificada"
+        value: "1"
+        code: 0
+        value_type: "STRING"
+        parent_id: "C50"
+        aliases:
+          - alias_id: "1_ALIAS_1"
+            value: "1_ALIAS_1"
+            value_type: "STRING"
+            description: "Alias 1 for C50.1"
+      - catalog_item_id: "C50_2"
+        name: "C50.2 - Areola y pezón"
+        value: "2"
+        code: 1
+        value_type: "STRING"
+        parent_id: "C50"
+        aliases: []
+      - catalog_item_id: "C50_3"
+        name: "C50.3 - Cuadrante superior interno"
+        value: "3"
+        code: 2
+        value_type: "STRING"
+        parent_id: "C50"
+        aliases: []
+      - catalog_item_id: "C50_4"
+        name: "C50.4 - Cuadrante inferior interno"
+        value: "4"
+        code: 3
+        value_type: "STRING"
+        parent_id: "C50"
+        aliases: []
+      - catalog_item_id: "C50_5"
+        name: "C50.5 - Cuadrante superior externo"
+        value: "5"
+        code: 4
+        value_type: "STRING"
+        parent_id: "C50"
+        aliases: []
+
+observatories:
+  - observatory_id: "obs_1"
+    title: "Observatory 1"
+    description: "Test Obs 1"
+    linked_catalogs:
+      - "cat_spatial"
+      - "cat_time"
+      - "cat_sex"
+      - "cat_plot"
+      - "cat_cie10"
+
+products:
+  - product_id: "p_01_01"
+    obs_id: "obs_1"
+    name: "Data p_01_01 - MX C50_1 Y2000"
+    description: "Autogenerated test product"
+    tags: ["MX", "FEMALE", "Y2000", "C50_1", "LINE"]
+  - product_id: "PRODUCTO2_MX"
+    obs_id: "obs_1"
+    name: "Data p_01_01 - MX C50_1 Y2001"
+    description: "Autogenerated test product"
+    tags: ["MX", "MALE", "Y2001", "C50_1", "LINE"]

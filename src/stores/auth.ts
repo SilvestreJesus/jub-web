@@ -18,6 +18,15 @@ export interface AuthAttemptDTO {
     renew_token: boolean;
 }
 
+export interface User {
+    username: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    profile_photo: string;
+    role?: string;
+}
+
 export interface AuthResponseDTO{
     username: string;
     first_name: string;
@@ -27,10 +36,11 @@ export interface AuthResponseDTO{
     access_token: string;
     temporal_secret: string;
     metadata: Record<string, any>;
+    role?: string;
 }
 
 export const useAuthStore = defineStore('auth', () => {
-    const user = ref<AuthResponseDTO | null>(null);
+    const user = ref<User | null>(null);
     const isLoading = ref(false);
     const error = ref<string | null>(null);
     const isVerified = ref(false);
@@ -39,9 +49,14 @@ export const useAuthStore = defineStore('auth', () => {
 
     const XOLO_API_URL = import.meta.env.VITE_XOLO_API_URL || 'http://localhost:10000/api/v4';
 
+    function clearLocalStorage() {
+        localStorage.removeItem("token");
+        localStorage.removeItem("secret");
+        localStorage.removeItem("username");
+    }
     async function verifyToken(data: VerifyDTO) {
-        isLoading.value = true;
-        error.value = null;
+        isLoading.value  = true;
+        error.value      = null;
         isVerified.value = false;
         
         try {
@@ -62,7 +77,9 @@ export const useAuthStore = defineStore('auth', () => {
 
                 const errorData = await response.json();
                 console.error("Verification failed:", errorData);
-                throw new Error("Failed to verify token.");
+                error.value = errorData.message || "Failed to verify token.";
+                return isVerified.value;
+                // throw new Error("Failed to verify token.");
             }
 
 
@@ -76,20 +93,20 @@ export const useAuthStore = defineStore('auth', () => {
         return isVerified.value;
     }
 
-    function getUser(): AuthResponseDTO | null {
+    function getUser(): User | null {
         return user.value;
     }
     async function login(payload: AuthAttemptDTO) {      
         // Implement login logic here
         try {
-            const response = await fetch(`${XOLO_API_URL}/users/login`, {
+            const response = await fetch(`${XOLO_API_URL}/users/auth`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(payload),
             });
-
+            console.log("Login response status:", response.status);
             if (!response.ok) {
                 const errorData = await response.json();
                 console.error("Login failed:", errorData);
@@ -98,22 +115,31 @@ export const useAuthStore = defineStore('auth', () => {
             const data = await response.json() as AuthResponseDTO;
             // Simulate successful login
             localStorage.setItem("username", payload.username);
-            localStorage.setItem("access_token", data.access_token);
+            localStorage.setItem("token", data.access_token);
             localStorage.setItem("secret", data.temporal_secret);
             
-
+            user.value = {
+                username: data.username,
+                first_name: data.first_name,
+                last_name: data.last_name,
+                email: data.email,
+                profile_photo: `https://api.dicebear.com/9.x/bottts/svg?seed=${data.first_name}`,
+                role: data.role
+            };
             isVerified.value = true;
             return true;
         } catch (err) {
             console.error("Login error:", err);
             error.value = "An error occurred during login.";
             return false;
+        }finally{
+            isLoading.value = false;
         }
     
     }
     async function logout(){
         const payload: LogoutDTO = {  
-            access_token: localStorage.getItem("access_token") || "",
+            access_token: localStorage.getItem("token") || "",
             username: localStorage.getItem("username") || ""
         }
         try {
@@ -132,10 +158,12 @@ export const useAuthStore = defineStore('auth', () => {
             error.value = "An error occurred during logout.";
             return false;
         } finally {
+            // localStorage.removeItem("access_token");
             localStorage.removeItem("token");
             localStorage.removeItem("secret");
             localStorage.removeItem("username");
             localStorage.removeItem("mictlanx-store");
+            user.value = null;
             isVerified.value = false;
             isLoading.value = false;
         }
@@ -152,7 +180,10 @@ export const useAuthStore = defineStore('auth', () => {
         getUser,
         verifyToken,
         login,
-        logout
+        logout,
+        clearLocalStorage
     }
 
+},{
+    persist:true
 })

@@ -1,7 +1,5 @@
 <template>
-  <!-- color="grey-lighten-4" -->
   <v-sheet   class="container py-16 px-4">
-    <!-- <v-container class="card"> -->
       <v-card @mouseover="onHover" @mouseleave="onLeave" color="white" :elevation="elevation" rounded="xl" class="card pa-8 pa-md-16 mx-auto" max-width="1400">
         <v-row justify="center" class="text-left mb-12">
           <v-col cols="12">
@@ -47,7 +45,6 @@
           </v-col>
         </v-row>
       </v-card>
-    <!-- </v-container> -->
     <Separator class="separator" :size="20"/>
   </v-sheet>
 </template>
