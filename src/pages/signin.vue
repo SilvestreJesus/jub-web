@@ -73,7 +73,6 @@
                 <v-col cols="6">
                   <v-btn block variant="outlined" color="grey-lighten-1" size="large" rounded="lg" @click="loginWithGoogle">
                     <v-img src="@/assets/google.png" width="20" class="mr-2" /> Google
-                    <!-- <v-icon start color="red">mdi-google</v-icon> Google -->
                   </v-btn>
                 </v-col>
                 <v-col cols="6">
@@ -123,11 +122,9 @@
       </v-col>
 
       <v-col cols="12" md="5" class="d-none d-md-flex align-center justify-center login-gradient">
-        <!-- <v-responsive max-width="300" class="text-center"> -->
           <div class="floating-box">
              <v-icon size="180" color="white" class="drop-shadow">mdi-shield-lock-outline</v-icon>
           </div>
-        <!-- </v-responsive> -->
       </v-col>
 
     </v-row>
@@ -136,7 +133,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useRouter } from 'vue-router'; // Asegúrate de importar el router
+import { useRouter } from 'vue-router'; 
 import { useAuthStore,type AuthAttemptDTO } from '@/stores/auth';
 import { useAppStore,SnackbarColor } from '@/stores/app';
 
@@ -146,7 +143,7 @@ definePage({
   name: 'Signin',
   meta: {
     requiresAuth: false,
-    layout: 'default', // Considera si esta vista debería tener layout vacío ('blank' o 'default')
+    layout: 'default', 
   },
 });
 
@@ -155,11 +152,14 @@ const authStore = useAuthStore();
 const router = useRouter();
 const authMode = ref('signin');
 const username = ref('');
-const password = ref('invitado');
-
+const password = ref('');
+  
 const handleLogin = async () => {
-  if (username.value.toLowerCase() === 'invitado') {
-    password.value = 'invitado'; // Establece la contraseña para el usuario invitado
+  const usernameFormatted = username.value.trim().toLowerCase();
+  
+  if (usernameFormatted === 'invitado' || usernameFormatted === 'guest') {
+    password.value = import.meta.env.VITE_DEFAULT_GUEST_PASSWORD;
+    console.log('Iniciando sesión como invitado...' + password.value);
   }
   const authAttempt:AuthAttemptDTO = {
     username: username.value,
