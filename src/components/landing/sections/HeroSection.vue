@@ -63,7 +63,6 @@ const responsiveBannerTitle = computed(() => {
 
 function onClickDemo() {
   const user = authStore.getUser(); 
-  console.log(user);
   if (user) {
     router.push({ name: 'Dashboard' });
   } else {

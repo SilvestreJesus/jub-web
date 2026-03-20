@@ -235,7 +235,7 @@
                   <template v-else>
                     <v-img v-if="loadedData[i]?.type?.includes('image')" :src="loadedData[i]?.url ?? ''" contain width="100%" height="100%" max-height="90vh" />
                     
-                    <iframe v-else-if="loadedData[i]?.type?.includes('pdf') || loadedData[i]?.type?.includes('html')" :src="loadedData[i]?.url ?? ''" class="full-size-iframe" style="width: 100%; height: 100%; border: none; background: white;"></iframe>
+                    <iframe v-else-if="loadedData[i]?.type?.includes('pdf') || loadedData[i]?.type?.includes('html')" :src="loadedData[i]?.url ?? ''" class="full-size-iframe" style="width: 100%; height: 100%; border: none; background: white;" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin"></iframe>
 
                     <audio v-else-if="loadedData[i]?.type?.includes('audio')" controls :src="loadedData[i]?.url ?? ''"></audio>
 
@@ -428,7 +428,7 @@ const fetchIfNeeded = async (index: number) => {
   }
 };
 
-const openOverlay = (productList: ProductXDTO[], startAt: number) => {
+const openOverlay = (startAt: number) => {
   currentIndex.value = startAt;
   showOverlay.value = true;
   onSlideChange(startAt);
@@ -451,7 +451,8 @@ const handleCreateTask = () => {
 };
 
 const openDetails = (product: ProductXDTO) => {
-  openOverlay([product], 0); 
+  const _currentIndex = filteredProducts.value.findIndex(p => p.product_id === product.product_id);
+  openOverlay(_currentIndex); 
 
 };
 

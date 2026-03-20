@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer app permanent v-model="props.modelValue" rail>
+  <v-navigation-drawer app permanent v-model="drawerModel" rail>
     <v-list>
       <v-list-item class="cursor-pointer"
         :prepend-avatar="`https://api.dicebear.com/9.x/bottts/svg?seed=${currentUser?.first_name}`"
@@ -37,7 +37,21 @@ const appStore = useAppStore();
 
 const props = defineProps<{
   modelValue: boolean
-}>()
+}>();
+
+
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: boolean): void
+}>();
+const drawerModel = computed({
+  get() {
+    return props.modelValue;
+  },
+  set(value: boolean) {
+    // Emit the update event to the parent component
+    emit('update:modelValue', value);
+  }
+});
 
 
 const logout = async () => {

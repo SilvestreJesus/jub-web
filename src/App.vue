@@ -9,7 +9,7 @@
       timeout="-1" 
       >
       <div class="d-flex align-center">
-      <v-icon start icon="mdi-check-circle" class="mr-3"></v-icon>
+      <v-icon start :icon="appStore.snackbarIcon" class="mr-3"></v-icon>
     <div>
       <div class="text-subtitle-1 font-weight-bold">{{ appStore.snackbarTitle }}</div>
       <div>{{ appStore.snackbarMessage }}</div>
